@@ -3,12 +3,9 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/conexion.php';
 require_once __DIR__ . '/../models/Tutoria.php';
 
-// Solo profesores
 verificarRol('profesor');
 
 $id_profesor = $_SESSION['id_usuario'];
-$nombre = $_SESSION['nombre'];
-
 $model = new Tutoria($conexion);
 $tutorias = $model->getByProfesor($id_profesor);
 
@@ -19,11 +16,11 @@ $tutorias = $model->getByProfesor($id_profesor);
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-0">Panel Docente</h4>
-            <small class="text-muted">Bienvenido, <?php echo htmlspecialchars($nombre); ?></small>
+            <h4 class="mb-0">Mis Tutorías</h4>
+            <small class="text-muted">Listado de tus tutorías</small>
         </div>
         <div>
-            <a href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/tutorias/crear_profesor.php" class="btn btn-success">Crear Nueva Tutoría</a>
+            <a href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/tutorias/crear_profesor.php" class="btn btn-success">+ Nueva Tutoría</a>
         </div>
     </div>
 

@@ -30,25 +30,25 @@ $nombre = $_SESSION['nombre'];
 
                 <?php if ($rol == "estudiante") : ?>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/dashboard/estudiante.php">Dashboard</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/dashboard/estudiante.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/tutorias/listar.php">Tutorías</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/tutorias/listar.php">Tutorías</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/reservas/mis_reservas.php">Mis Reservas</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/reservas/mis_reservas.php">Mis Reservas</a>
                     </li>
                 <?php endif; ?>
 
                 <?php if ($rol == "profesor") : ?>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/dashboard/profesor.php">Dashboard</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/dashboard/profesor.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/tutorias/crear.php">Crear Tutoría</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/tutorias/crear_profesor.php">Crear Tutoría</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/sistema_tutorias/tutorias/listar.php">Mis Tutorías</a>
+                        <a class="nav-link text-white" href="/Introduccion_tutores_D191_2026_ACP/sistema_tutorias/tutorias/listar_profesor.php">Mis Tutorías</a>
                     </li>
                 <?php endif; ?>
 
