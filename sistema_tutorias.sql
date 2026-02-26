@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2026 at 05:27 PM
+-- Generation Time: Feb 26, 2026 at 04:06 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,8 +42,8 @@ CREATE TABLE `tb_reservas` (
 --
 
 INSERT INTO `tb_reservas` (`id_reserva`, `id_tutoria`, `id_estudiante`, `estado`, `fecha_reserva`) VALUES
-(12, 1, 7, 'cancelada', '2026-02-25 04:23:05'),
-(14, 3, 7, 'activa', '2026-02-25 04:23:05');
+(12, 1, 6, 'cancelada', '2026-02-25 04:23:05'),
+(14, 3, 5, 'activa', '2026-02-25 04:23:05');
 
 -- --------------------------------------------------------
 
