@@ -77,7 +77,7 @@ if (isset($_GET['reservar'])) {
         }
     }
 
-    header("Location: dashboard.php");
+    header("Location: estudiante.php");
     exit();
 }
 
@@ -129,7 +129,7 @@ if (isset($_GET['cancelar'])) {
         }
     }
 
-    header("Location: dashboard.php");
+    header("Location: estudiante.php");
     exit();
 }
 
@@ -262,3 +262,4 @@ $mis_reservas = $conexion->query("
 </div>
 
 <?php include "../includes/footer.php"; ?>
+
