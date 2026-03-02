@@ -83,51 +83,13 @@ if (isset($_GET['reservar'])) {
 
 
 if (isset($_GET['cancelar'])) {
-
     $id_reserva = intval($_GET['cancelar']);
-
     
-    $consulta = $conexion->query("
-        SELECT id_tutoria
-        FROM tb_reservas
+    $conexion->query("
+        UPDATE tb_reservas
+        SET estado = 'cancelada'
         WHERE id_reserva = $id_reserva
-        AND id_estudiante = $id_estudiante
     ");
-
-    if ($consulta->num_rows > 0) {
-
-        $datos = $consulta->fetch_assoc();
-        $id_tutoria = $datos['id_tutoria'];
-
-        
-        $conexion->query("
-            DELETE FROM tb_reservas
-            WHERE id_reserva = $id_reserva
-        ");
-
-        
-        $conteo = $conexion->query("
-            SELECT COUNT(*) as inscritos
-            FROM tb_reservas
-            WHERE id_tutoria = $id_tutoria
-        ");
-        $inscritos = $conteo->fetch_assoc()['inscritos'];
-
-        $tutoria = $conexion->query("
-            SELECT cupos
-            FROM tb_tutorias
-            WHERE id_tutoria = $id_tutoria
-        ");
-        $cupos_totales = $tutoria->fetch_assoc()['cupos'];
-
-        if ($inscritos < $cupos_totales) {
-            $conexion->query("
-                UPDATE tb_tutorias
-                SET estado = 'disponible'
-                WHERE id_tutoria = $id_tutoria
-            ");
-        }
-    }
 
     header("Location: estudiante.php");
     exit();
@@ -145,7 +107,7 @@ $tutorias = $conexion->query("
 
 
 $mis_reservas = $conexion->query("
-    SELECT r.id_reserva, t.tema, t.fecha, t.hora_inicio, t.hora_fin
+    SELECT r.id_reserva, r.estado, t.tema, t.fecha, t.hora_inicio, t.hora_fin
     FROM tb_reservas r
     INNER JOIN tb_tutorias t ON r.id_tutoria = t.id_tutoria
     WHERE r.id_estudiante = $id_estudiante
@@ -228,9 +190,9 @@ $mis_reservas = $conexion->query("
                         <div class="card shadow-sm rounded-4 border-start border-4 border-primary">
                             <div class="card-body d-flex flex-column">
 
-                                <span class="badge bg-primary align-self-start">
-                                    Reservada
-                                </span>
+                                 <span class="badge <?php echo ($r['estado'] == 'cancelada') ? 'bg-danger' : 'bg-primary'; ?>">
+    <?php echo ($r['estado'] == 'cancelada') ? 'Cancelada' : 'Reservada'; ?>
+</span>
 
                                 <h5 class="fw-semibold mt-2">
                                     <?php echo htmlspecialchars($r['tema']); ?>
@@ -240,11 +202,15 @@ $mis_reservas = $conexion->query("
                                 <p class="mb-3">Horario: <?php echo $r['hora_inicio']; ?> - <?php echo $r['hora_fin']; ?></p>
 
                                 <div class="mt-auto">
-                                    <a href="?cancelar=<?php echo $r['id_reserva']; ?>"
-                                       class="btn btn-outline-danger w-100"
-                                       onclick="return confirm('¿Cancelar esta reserva?');">
-                                       Cancelar Reserva
-                                    </a>
+                                   
+
+<?php if($r['estado'] == 'activa'): ?>
+    <a href="?cancelar=<?php echo $r['id_reserva']; ?>" class="btn btn-outline-danger w-100">
+        Cancelar Reserva
+    </a>
+<?php else: ?>
+    <button class="btn btn-secondary w-100" disabled>Cancelada</button>
+<?php endif; ?>
                                 </div>
 
                             </div>
