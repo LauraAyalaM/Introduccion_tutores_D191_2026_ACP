@@ -43,20 +43,18 @@ class Tutoria {
     }
 
     // Obtener estudiantes inscritos en una tutoría
-    public function getReservasDetalles($id_tutoria) {
-        $stmt = $this->conexion->prepare(
-            "SELECT u.nombre, u.correo, r.estado, r.fecha_reserva
-             FROM tb_reservas r
-             INNER JOIN tb_usuarios u ON r.id_estudiante = u.id_usuario
-             WHERE r.id_tutoria = ? AND u.id_rol = 1"
-        );
-        $stmt->bind_param("i", $id_tutoria);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $rows;
-    }
+public function getReservasDetalles($id_tutoria) {
+    $sql = "SELECT u.nombre, u.correo, r.estado, r.fecha_reserva
+            FROM tb_reservas r
+            INNER JOIN tb_usuarios u ON r.id_estudiante = u.id_usuario
+            WHERE r.id_tutoria = ?
+            ORDER BY r.fecha_reserva ASC";
+    $stmt = $this->conexion->prepare($sql);
+    $stmt->bind_param("i", $id_tutoria);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
 
     // Obtener tutoría por id
     public function getById($id_tutoria) {
