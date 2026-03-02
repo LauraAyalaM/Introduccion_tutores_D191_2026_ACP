@@ -43,7 +43,7 @@ $resultado = $stmt->get_result();
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">📚 Mis Reservas</h4>
+            <h4 class="mb-0"> Mis Reservas</h4>
         </div>
 
         <div class="card-body">
@@ -95,3 +95,4 @@ $resultado = $stmt->get_result();
 
 </body>
 </html>
+
