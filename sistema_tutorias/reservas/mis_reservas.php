@@ -40,6 +40,9 @@ $resultado = $stmt->get_result();
 </head>
 <body class="bg-light">
 
+<?php include "../includes/header.php"; ?>
+<?php include "../includes/navbar.php"; ?>
+
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
