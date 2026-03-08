@@ -1,79 +1,159 @@
 <?php
-require_once __DIR__ . '/../config/conexion.php';
 
 class Tutoria {
+
     private $conexion;
 
-    public function __construct($conexion) {
+    public function __construct($conexion){
         $this->conexion = $conexion;
     }
 
-    // Obtener tutorías de un profesor
-    public function getByProfesor($id_profesor) {
-        $stmt = $this->conexion->prepare(
-            "SELECT * FROM tb_tutorias WHERE id_profesor = ? ORDER BY fecha DESC"
-        );
-        $stmt->bind_param("i", $id_profesor);
+    /* LISTAR TODAS */
+
+    public function listar(){
+
+        $sql = "SELECT t.*, u.nombre as profesor
+                FROM tb_tutorias t
+                INNER JOIN tb_usuarios u ON t.id_profesor = u.id_usuario
+                ORDER BY t.fecha ASC";
+
+        $result = $this->conexion->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    /* OBTENER POR ID */
+
+    public function getById($id){
+
+        $stmt = $this->conexion->prepare("
+            SELECT * FROM tb_tutorias
+            WHERE id_tutoria = ?
+        ");
+
+        $stmt->bind_param("i",$id);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $tutorias = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $tutorias;
+
+        return $stmt->get_result()->fetch_assoc();
     }
 
-    // Crear nueva tutoría
-    public function create($id_profesor, $tema, $fecha, $hora_inicio, $hora_fin, $cupos) {
-        $stmt = $this->conexion->prepare(
-            "INSERT INTO tb_tutorias (id_profesor, fecha, hora_inicio, hora_fin, tema, cupos, estado) VALUES (?, ?, ?, ?, ?, ?, 'disponible')"
-        );
-        $stmt->bind_param("issssi", $id_profesor, $fecha, $hora_inicio, $hora_fin, $tema, $cupos);
-        $ok = $stmt->execute();
-        $stmt->close();
-        return $ok;
-    }
 
-    // Contar reservas de una tutoría
-    public function countReservas($id_tutoria) {
-        $stmt = $this->conexion->prepare("SELECT COUNT(*) as total FROM tb_reservas WHERE id_tutoria = ?");
-        $stmt->bind_param("i", $id_tutoria);
-        $stmt->execute();
-        $res = $stmt->get_result()->fetch_assoc();
-        $stmt->close();
-        return (int)$res['total'];
-    }
+    /* CREAR */
 
-    // Obtener estudiantes inscritos en una tutoría
-public function getReservasDetalles($id_tutoria) {
-    $sql = "SELECT u.nombre, u.correo, r.estado, r.fecha_reserva
-            FROM tb_reservas r
-            INNER JOIN tb_usuarios u ON r.id_estudiante = u.id_usuario
-            WHERE r.id_tutoria = ?
-            ORDER BY r.fecha_reserva ASC";
+public function crear($id_profesor, $id_materia, $fecha, $hora_inicio, $hora_fin, $cupo, $estado)
+{
+    $sql = "INSERT INTO tb_tutorias 
+            (id_profesor, id_materia, fecha, hora_inicio, hora_fin, cupos, estado) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $this->conexion->prepare($sql);
-    $stmt->bind_param("i", $id_tutoria);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
+
+    return $stmt->execute([
+        $id_profesor,
+        $id_materia,
+        $fecha,
+        $hora_inicio,
+        $hora_fin,
+        $cupo,
+        $estado
+    ]);
 }
 
-    // Obtener tutoría por id
-    public function getById($id_tutoria) {
-        $stmt = $this->conexion->prepare("SELECT * FROM tb_tutorias WHERE id_tutoria = ?");
-        $stmt->bind_param("i", $id_tutoria);
+
+    /* ACTUALIZAR */
+
+public function actualizar($id,$id_profesor,$fecha,$hora_inicio,$hora_fin,$cupos){
+
+$stmt = $this->conexion->prepare("
+UPDATE tb_tutorias
+SET id_profesor=?,
+    fecha=?,
+    hora_inicio=?,
+    hora_fin=?,
+    cupos=?
+WHERE id_tutoria=?
+");
+
+$stmt->bind_param("isssii",
+$id_profesor,
+$fecha,
+$hora_inicio,
+$hora_fin,
+$cupos,
+$id
+);
+
+return $stmt->execute();
+}
+
+    /* CAMBIAR ESTADO */
+
+    public function cambiarEstado($id,$estado){
+
+        $stmt = $this->conexion->prepare("
+            UPDATE tb_tutorias
+            SET estado=?
+            WHERE id_tutoria=?
+        ");
+
+        $stmt->bind_param("si",$estado,$id);
+
+        return $stmt->execute();
+    }
+
+
+    /* CONTAR RESERVAS */
+
+    public function countReservas($id){
+
+        $stmt = $this->conexion->prepare("
+            SELECT COUNT(*) as total
+            FROM tb_reservas
+            WHERE id_tutoria=?
+        ");
+
+        $stmt->bind_param("i",$id);
         $stmt->execute();
-        $res = $stmt->get_result()->fetch_assoc();
-        $stmt->close();
-        return $res;
+
+        return $stmt->get_result()->fetch_assoc()['total'];
     }
 
-    // Cambiar estado de una tutoría (con verificación externa de propietario)
-    public function cambiarEstado($id_tutoria, $estado) {
-        $stmt = $this->conexion->prepare("UPDATE tb_tutorias SET estado = ? WHERE id_tutoria = ?");
-        $stmt->bind_param("si", $estado, $id_tutoria);
-        $ok = $stmt->execute();
-        $stmt->close();
-        return $ok;
+
+    /* RESERVAS DETALLE */
+
+    public function getReservasDetalles($id){
+
+        $stmt = $this->conexion->prepare("
+            SELECT u.nombre,u.correo,r.estado,r.fecha_reserva
+            FROM tb_reservas r
+            INNER JOIN tb_usuarios u
+            ON r.id_estudiante = u.id_usuario
+            WHERE r.id_tutoria=?
+        ");
+
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+
+    /* TUTORIAS DE PROFESOR */
+
+    public function getByProfesor($id_profesor){
+
+        $stmt = $this->conexion->prepare("
+            SELECT *
+            FROM tb_tutorias
+            WHERE id_profesor=?
+            ORDER BY fecha DESC
+        ");
+
+        $stmt->bind_param("i",$id_profesor);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
-require_once "../includes/auth.php";
-require_once "../config/conexion.php";
+require_once "../../includes/auth.php";
+require_once "../../config/conexion.php";
 
 // Validar administrador
 if ($_SESSION['rol'] !== "administrador") {
@@ -78,8 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<?php include "../includes/header.php"; ?>
-<?php include "../includes/navbar.php"; ?>
+<?php include "../../includes/header.php"; ?>
+<?php include "../../includes/navbar.php"; ?>
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -94,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <?php echo $mensaje; ?>
 
-                    <form method="POST">
-
+                    <form method="POST" action="../../controllers/UsuarioController.php?accion=actualizar">
+                    <input type="hidden" name="id_usuario" value="<?php echo $usuario['id_usuario']; ?>">
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input type="text" name="nombre" class="form-control"
@@ -146,4 +146,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<?php include "../includes/footer.php"; ?>
+<?php include "../../includes/footer.php"; ?>

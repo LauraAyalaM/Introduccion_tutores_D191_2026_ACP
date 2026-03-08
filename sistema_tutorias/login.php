@@ -6,10 +6,10 @@ require_once "includes/auth.php";
 if (isset($_SESSION['rol']) && basename($_SERVER['PHP_SELF']) == 'login.php') {
     switch ($_SESSION['rol']) {
         case 'estudiante':
-            header("Location: dashboard/estudiante.php");
+            header("Location: views/reservas/mis_reservas.php");
             exit();
         case 'profesor':
-            header("Location: dashboard/profesor.php");
+            header("Location: views/tutorias/listar.php");
             exit();
         case 'administrador':
             header("Location: dashboard/administrador.php");
@@ -49,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 switch ($usuario['nombre']) {
                     case 'estudiante':
-                        header("Location: dashboard/estudiante.php");
+                        header("Location: views/reservas/mis_reservas.php");
                         break;
                     case 'profesor':
-                        header("Location: dashboard/profesor.php");
+                        header("Location: views/tutorias/listar.php");
                         break;
                     case 'administrador':
                         header("Location: dashboard/administrador.php");

@@ -1,10 +1,10 @@
 <?php
-require_once "../includes/auth.php";
-require_once "../config/conexion.php";
+require_once "../../includes/auth.php";
+require_once "../../config/conexion.php";
 
 // Validar que sea administrador
 if ($_SESSION['rol'] !== "administrador") {
-    header("Location: ../login.php");
+    header("Location: ../../login.php");
     exit();
 }
 
@@ -40,11 +40,11 @@ $sql = "SELECT
 $resultado = $conexion->query($sql);
 ?>
 
-<?php include "../includes/header.php"; ?>
-<?php include "../includes/navbar.php"; ?>
+<?php include "../../includes/header.php"; ?>
+<?php include "../../includes/navbar.php"; ?>
 
 <div class="container py-5">
-
+<?php include "../../includes/alerts.php"; ?>
     <!-- Encabezado de sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -117,11 +117,11 @@ $resultado = $conexion->query($sql);
                                            class="btn btn-sm btn-outline-primary">Editar</a>
 
                                         <?php if ($usuario['activo']): ?>
-                                            <a href="cambiar_estado.php?id=<?php echo $usuario['id_usuario']; ?>&estado=0" 
+                                            <a href="../../controllers/UsuarioController.php?accion=estado&id=<?php echo $usuario['id_usuario']; ?>&estado=0" 
                                                class="btn btn-sm btn-outline-danger"
                                                onclick="return confirm('¿Deseas desactivar este usuario?')">Desactivar</a>
                                         <?php else: ?>
-                                            <a href="cambiar_estado.php?id=<?php echo $usuario['id_usuario']; ?>&estado=1" 
+                                            <a href="../../controllers/UsuarioController.php?accion=estado&id=<?php echo $usuario['id_usuario']; ?>&estado=1" 
                                                class="btn btn-sm btn-outline-success"
                                                onclick="return confirm('¿Deseas reactivar este usuario?')">Activar</a>
                                         <?php endif; ?>
@@ -147,4 +147,4 @@ $resultado = $conexion->query($sql);
 
 </div>
 
-<?php include "../includes/footer.php"; ?>
+<?php include "../../includes/footer.php"; ?>

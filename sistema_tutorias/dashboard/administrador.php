@@ -21,10 +21,11 @@ $total_reservas = $conexion->query("SELECT COUNT(*) as total FROM tb_reservas")-
 
 // Últimas tutorías
 $ultimas_tutorias = $conexion->query("
-    SELECT t.id_tutoria, t.tema, t.fecha, t.hora_inicio, t.hora_fin, t.cupos, t.estado,
+    SELECT t.id_tutoria, t.fecha,m.nombre AS materia, t.hora_inicio, t.hora_fin, t.cupos, t.estado,
            u.nombre as profesor
     FROM tb_tutorias t
     INNER JOIN tb_usuarios u ON t.id_profesor = u.id_usuario
+    INNER JOIN tb_materias m ON t.id_materia = m.id_materia
     ORDER BY t.id_tutoria DESC
     LIMIT 5
 ");
@@ -39,11 +40,11 @@ $ultimas_tutorias = $conexion->query("
     <div class="mb-5">
         <h6 class="text-uppercase text-muted mb-3">Acciones rápidas</h6>
         <div class="d-flex gap-3">
-            <a href="../usuarios/crear.php" class="btn btn-primary">
+            <a href="../views/usuarios/crear.php" class="btn btn-primary">
                 + Crear Usuario
             </a>
-            <a href="../tutorias/crear.php" class="btn btn-outline-primary">
-                + Crear Tutoría
+            <a href="../views/materias/gestionar_materia.php" class="btn btn-outline-primary">
+                + Crear Materia
             </a>
         </div>
     </div>
@@ -117,7 +118,7 @@ $ultimas_tutorias = $conexion->query("
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr class="small text-uppercase">
-                        <th>Tema</th>
+                        <th>Materia</th>
                         <th>Fecha</th>
                         <th>Horario</th>
                         <th>Cupos</th>
@@ -129,7 +130,7 @@ $ultimas_tutorias = $conexion->query("
                 <tbody>
                     <?php while ($t = $ultimas_tutorias->fetch_assoc()): ?>
                         <tr>
-                            <td class="fw-semibold"><?php echo htmlspecialchars($t['tema']); ?></td>
+                            <td class="fw-semibold"><?php echo htmlspecialchars($t['materia']); ?></td>
                             <td><?php echo $t['fecha']; ?></td>
                             <td><?php echo $t['hora_inicio']; ?> - <?php echo $t['hora_fin']; ?></td>
                             <td><?php echo $t['cupos']; ?></td>
@@ -142,20 +143,20 @@ $ultimas_tutorias = $conexion->query("
                             </td>
                             <td><?php echo htmlspecialchars($t['profesor']); ?></td>
                             <td>
-                                <a href="../tutorias/editar.php?id=<?php echo $t['id_tutoria']; ?>" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="../views/tutorias/editar.php?id=<?php echo $t['id_tutoria']; ?>" class="btn btn-sm btn-warning">Editar</a>
 
                                 <?php if ($t['estado'] != 'cancelada'): ?>
-                                    <a href="../tutorias/cambiar_estado.php?id=<?php echo $t['id_tutoria']; ?>&estado=cancelada" 
-                                    class="btn btn-sm btn-danger" 
-                                    onclick="return confirm('¿Seguro que deseas cancelar esta tutoría?');">
-                                    Cancelar
-                                    </a>
-                                <?php else: ?>
-                                    <a href="../tutorias/cambiar_estado.php?id=<?php echo $t['id_tutoria']; ?>&estado=disponible" 
-                                    class="btn btn-sm btn-success" 
-                                    onclick="return confirm('¿Deseas reabrir esta tutoría?');">
-                                    Reabrir
-                                    </a>
+                                    <a href="../../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=cancelada" 
+                                        class="btn btn-sm btn-danger" 
+                                        onclick="return confirm('¿Seguro que deseas cancelar esta tutoría?');">
+                                        Cancelar
+                                        </a>
+                                                                        <?php else: ?>
+                                                                            <a href="../../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=disponible" 
+                                        class="btn btn-sm btn-success" 
+                                        onclick="return confirm('¿Deseas reabrir esta tutoría?');">
+                                        Reabrir
+                                        </a>
                                 <?php endif; ?>
                             </td>
                         </tr>

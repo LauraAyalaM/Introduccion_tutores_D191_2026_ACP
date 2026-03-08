@@ -1,7 +1,7 @@
 <?php
 // reservas/listar.php
-require_once "../includes/auth.php";
-require_once "../config/conexion.php";
+require_once "../../includes/auth.php";
+require_once "../../config/conexion.php";
 
 // Validar que sea administrador
 verificarRol("administrador");
@@ -22,7 +22,7 @@ $sql = "SELECT
             r.estado, 
             r.fecha_reserva,
             u.nombre AS estudiante,
-            t.tema AS tutoria,
+            m.nombre AS materia,
             t.fecha AS fecha_tutoria,
             t.hora_inicio,
             t.hora_fin,
@@ -31,14 +31,15 @@ $sql = "SELECT
         INNER JOIN tb_usuarios u ON r.id_estudiante = u.id_usuario
         INNER JOIN tb_tutorias t ON r.id_tutoria = t.id_tutoria
         INNER JOIN tb_usuarios p ON t.id_profesor = p.id_usuario
+        INNER JOIN tb_materias m ON t.id_materia = m.id_materia
         $where_sql
         ORDER BY r.fecha_reserva DESC";
 
 $result = $conexion->query($sql);
 ?>
 
-<?php include "../includes/header.php"; ?>
-<?php include "../includes/navbar.php"; ?>
+<?php include "../../includes/header.php"; ?>
+<?php include "../../includes/navbar.php"; ?>
 
 <div class="container py-5">
 
@@ -115,4 +116,4 @@ $result = $conexion->query($sql);
 
 </div>
 
-<?php include "../includes/footer.php"; ?>
+<?php include "../../includes/footer.php"; ?>
