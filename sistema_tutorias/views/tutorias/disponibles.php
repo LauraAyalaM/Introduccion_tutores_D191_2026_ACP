@@ -328,4 +328,95 @@ Sin cupos disponibles
 
 </div>
 
+<!-- Formulario de asignacion de video -->
+
+<div class="container mt-5">
+
+<div class="row justify-content-center">
+
+<div class="col-md-7">
+
+<div class="card shadow-lg border-0 rounded-4">
+
+<div class="card-header bg-primary text-white text-center rounded-top-4">
+<h4 class="mb-0">Encuesta de aprendizaje</h4>
+<small>Responde para recomendarte videos educativos</small>
+</div>
+
+<div class="card-body p-4">
+
+<form method="POST" action="../../controllers/RecomendacionController.php">
+
+<!-- Materia -->
+<div class="mb-4">
+
+<label class="form-label fw-bold">
+¿En qué materia necesitas ayuda?
+</label>
+
+<select name="materia" class="form-select form-select-lg" required>
+
+<option value="">Seleccionar materia</option>
+<option value="1">Español</option>
+<option value="2">Inglés</option>
+
+</select>
+
+</div>
+
+<!-- Nivel -->
+<div class="mb-4">
+
+<label class="form-label fw-bold">
+¿Cuál es tu nivel en este tema?
+</label>
+
+<select name="nivel" class="form-select form-select-lg" required>
+
+<option value="">Seleccionar nivel</option>
+<option value="basico">Básico</option>
+<option value="medio">Intermedio</option>
+<option value="avanzado">Avanzado</option>
+
+</select>
+
+</div>
+
+<!-- Tipo de ayuda -->
+<div class="mb-4">
+
+<label class="form-label fw-bold">
+¿Qué tipo de ayuda necesitas?
+</label>
+
+<select name="tipo" class="form-select form-select-lg">
+
+<option value="teoria">Explicación teórica</option>
+<option value="ejercicios">Ejercicios prácticos</option>
+<option value="ejemplos">Ejemplos paso a paso</option>
+
+</select>
+
+</div>
+
+<div class="d-grid">
+
+<button class="btn btn-success btn-lg">
+Recomendar videos
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <?php include "../../includes/footer.php"; ?>
