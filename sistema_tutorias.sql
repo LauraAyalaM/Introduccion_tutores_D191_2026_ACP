@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2026 at 02:38 AM
+-- Generation Time: Mar 11, 2026 at 05:26 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -161,6 +161,30 @@ INSERT INTO `tb_usuarios` (`id_usuario`, `nombre`, `correo`, `password`, `id_rol
 (6, 'Lina', 'lina@gmail.com', '1234', 1, 1, '2026-02-25 04:20:28'),
 (7, 'Pablo', 'pablo@gmail.com', '1234', 2, 1, '2026-02-25 04:20:45');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_videos`
+--
+
+CREATE TABLE `tb_videos` (
+  `id_video` int(11) NOT NULL,
+  `id_materia` int(11) DEFAULT NULL,
+  `titulo` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_videos`
+--
+
+INSERT INTO `tb_videos` (`id_video`, `id_materia`, `titulo`, `url`, `descripcion`) VALUES
+(1, 1, 'Uso correcto de tildes', 'https://www.youtube.com/embed/tildes', 'Reglas de acentuación'),
+(2, 1, 'Comprensión lectora', 'https://www.youtube.com/embed/lectura', 'Cómo mejorar lectura'),
+(3, 2, 'Gramática básica inglés', 'https://www.youtube.com/embed/english1', 'Verbo to be'),
+(4, 2, 'Conversación en inglés', 'https://www.youtube.com/embed/english2', 'Frases básicas');
+
 --
 -- Indexes for dumped tables
 --
@@ -211,6 +235,13 @@ ALTER TABLE `tb_usuarios`
   ADD KEY `id_rol` (`id_rol`);
 
 --
+-- Indexes for table `tb_videos`
+--
+ALTER TABLE `tb_videos`
+  ADD PRIMARY KEY (`id_video`),
+  ADD KEY `id_materia` (`id_materia`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -251,6 +282,12 @@ ALTER TABLE `tb_usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `tb_videos`
+--
+ALTER TABLE `tb_videos`
+  MODIFY `id_video` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -279,6 +316,12 @@ ALTER TABLE `tb_tutorias`
 --
 ALTER TABLE `tb_usuarios`
   ADD CONSTRAINT `tb_usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `tb_rol` (`id_rol`);
+
+--
+-- Constraints for table `tb_videos`
+--
+ALTER TABLE `tb_videos`
+  ADD CONSTRAINT `tb_videos_ibfk_1` FOREIGN KEY (`id_materia`) REFERENCES `tb_materias` (`id_materia`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
