@@ -25,7 +25,7 @@ class Reserva {
 
     /* CANCELAR */
 
-    /* public function cancelar($id_reserva){
+    public function cancelar($id_reserva){
 
         $stmt = $this->conexion->prepare("
         UPDATE tb_reservas
@@ -36,6 +36,6 @@ class Reserva {
         $stmt->bind_param("i",$id_reserva);
 
         return $stmt->execute();
-    } */
+    }
 
 }

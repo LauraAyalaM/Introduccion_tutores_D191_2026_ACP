@@ -2,7 +2,7 @@
 require_once "../../includes/auth.php";
 require_once "../../config/conexion.php";
 
-if ($_SESSION['rol'] !== "profesor") {
+if ($_SESSION['rol'] == "estudiante" ) {
     header("Location: ../../login.php");
     exit();
 }
@@ -156,19 +156,20 @@ value="<?php echo $tutoria['cupos']; ?>">
 
 </div>
 
-
 <!-- BOTONES -->
 
 <div class="d-flex justify-content-between mt-4">
 
-<a href="listar.php" class="btn btn-secondary">
+<a href="<?php 
+    echo ($_SESSION['rol'] === 'administrador') 
+        ? '../../dashboard/administrador.php' 
+        : 'listar.php'; 
+?>" class="btn btn-secondary">
 Volver
 </a>
 
 <button type="submit" class="btn btn-warning">
-
 Actualizar Tutoría
-
 </button>
 
 </div>

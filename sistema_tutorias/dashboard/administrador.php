@@ -35,7 +35,7 @@ $ultimas_tutorias = $conexion->query("
 <?php include "../includes/navbar.php"; ?>
 
 <div class="container py-5">
-
+<?php include "../includes/alerts.php"; ?>
     <!-- ACCIONES RÁPIDAS -->
     <div class="mb-5">
         <h6 class="text-uppercase text-muted mb-3">Acciones rápidas</h6>
@@ -115,7 +115,7 @@ $ultimas_tutorias = $conexion->query("
         <h6 class="mb-3 fw-semibold">Últimas Tutorías</h6>
 
         <?php if ($ultimas_tutorias->num_rows > 0): ?>
-            <table class="table table-hover align-middle mb-0">
+        <table id="tablaTutorias" class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr class="small text-uppercase">
                         <th>Materia</th>
@@ -146,13 +146,13 @@ $ultimas_tutorias = $conexion->query("
                                 <a href="../views/tutorias/editar.php?id=<?php echo $t['id_tutoria']; ?>" class="btn btn-sm btn-warning">Editar</a>
 
                                 <?php if ($t['estado'] != 'cancelada'): ?>
-                                    <a href="../../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=cancelada" 
+                                    <a href="../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=cancelada" 
                                         class="btn btn-sm btn-danger" 
                                         onclick="return confirm('¿Seguro que deseas cancelar esta tutoría?');">
                                         Cancelar
                                         </a>
                                                                         <?php else: ?>
-                                                                            <a href="../../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=disponible" 
+                                                                            <a href="../controllers/TutoriaController.php?accion=estado&id=<?php echo $t['id_tutoria']; ?>&estado=disponible" 
                                         class="btn btn-sm btn-success" 
                                         onclick="return confirm('¿Deseas reabrir esta tutoría?');">
                                         Reabrir
@@ -169,5 +169,27 @@ $ultimas_tutorias = $conexion->query("
     </div>
 
 </div>
+<script>
+$(document).ready(function() {
+    $('#tablaTutorias').DataTable({
+        "language": {
+            "search": "Buscar:",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ tutorías",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "zeroRecords": "No se encontraron tutorías"
+        },
+        "order": [[1, "desc"]], // orden inicial por fecha (columna 2, índice 1)
+        "columnDefs": [
+            { "orderable": false, "targets": 6 } // columna Acciones sin ordenar
+        ]
+    });
+});
+</script>
 
 <?php include "../includes/footer.php"; ?>

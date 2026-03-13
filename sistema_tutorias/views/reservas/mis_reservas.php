@@ -79,7 +79,7 @@ $resultado = $stmt->get_result();
 <h4 class="mb-0">Mis Reservas</h4>
 
 <a href="../tutorias/disponibles.php" class="btn btn-light btn-sm">
-Reservar tutoría
++ Reservar tutoría
 </a>
 
 </div>

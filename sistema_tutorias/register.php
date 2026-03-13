@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
 
             // Obtener id del rol
-            $stmtRol = $conexion->prepare("SELECT id_rol FROM tb_rol WHERE nombre_rol = ?");
+            $stmtRol = $conexion->prepare("SELECT id_rol FROM tb_rol WHERE nombre = ?");
             $stmtRol->bind_param("s", $rol);
             $stmtRol->execute();
             $resultadoRol = $stmtRol->get_result();
@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $id_rol = $filaRol['id_rol'];
 
                 // Insertar usuario (SIN HASH)
-                $estado = "activo";
+                $estado = 1;
 
-                $stmtInsert = $conexion->prepare("INSERT INTO tb_usuarios (nombre, correo, password, id_rol, estado) VALUES (?, ?, ?, ?, ?)");
-                $stmtInsert->bind_param("sssis", $nombre, $correo, $password, $id_rol, $estado);
+                $stmtInsert = $conexion->prepare("INSERT INTO tb_usuarios (nombre, correo, password, id_rol, activo) VALUES (?, ?, ?, ?, ?)");
+                $stmtInsert->bind_param("sssii", $nombre, $correo, $password, $id_rol, $estado);
 
                 if ($stmtInsert->execute()) {
                     $success = "Registro exitoso. Ahora puedes iniciar sesión.";

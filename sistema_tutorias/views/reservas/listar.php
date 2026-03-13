@@ -72,7 +72,7 @@ $result = $conexion->query($sql);
                         <tr class="text-muted small text-uppercase">
                             <th>ID Reserva</th>
                             <th>Estudiante</th>
-                            <th>ID Tutoría</th>
+                            <!-- <th>ID Tutoría</th> -->
                             <th>Profesor</th>
                             <th>Tutoría</th>
                             <th>Fecha Tutoría</th>
@@ -86,9 +86,9 @@ $result = $conexion->query($sql);
                             <tr>
                                 <td class="fw-semibold">#<?= $reserva['id_reserva']; ?></td>
                                 <td><?= htmlspecialchars($reserva['estudiante']); ?></td>
-                                <td><?= $reserva['id_tutoria']; ?></td>
-                                <td><?= htmlspecialchars($reserva['nombre_profesor']); ?></td>
-                                <td><?= htmlspecialchars($reserva['tutoria']); ?></td>
+<!--                                 <td><?= $reserva['id_tutoria']; ?></td>
+ -->                                <td><?= htmlspecialchars($reserva['nombre_profesor']); ?></td>
+                                <td><?= htmlspecialchars($reserva['materia']); ?></td>
                                 <td><?= $reserva['fecha_tutoria']; ?></td>
                                 <td><?= $reserva['hora_inicio']; ?></td>
                                 <td><?= $reserva['hora_fin']; ?></td>

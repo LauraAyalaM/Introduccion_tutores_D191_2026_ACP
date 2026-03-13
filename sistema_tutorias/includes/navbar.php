@@ -14,7 +14,7 @@ $nombre = $_SESSION['nombre'];
     <div class="container d-flex align-items-center">
 
         <!-- Logo -->
-        <a class="navbar-brand fw-semibold" href="<?= BASE_URL ?>">
+        <a class="navbar-brand fw-semibold">
             Sistema Tutorías
         </a>
 
@@ -89,11 +89,11 @@ $nombre = $_SESSION['nombre'];
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white" href="<?= BASE_URL ?>views/tutorias/listar.php">
                         Tutorías
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="nav-item">
                         <a class="nav-link text-white" href="<?= BASE_URL ?>views/reservas/listar.php">
